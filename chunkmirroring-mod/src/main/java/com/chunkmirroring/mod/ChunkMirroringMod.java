@@ -16,9 +16,10 @@ public class ChunkMirroringMod {
     public ChunkMirroringMod() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         MinecraftForge.EVENT_BUS.register(new BlockEventHandler());
+        MinecraftForge.EVENT_BUS.register(new ContainerSyncHandler());
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        LOGGER.info("Chunk Mirroring Mod loaded. Block actions will be mirrored across all loaded chunks.");
+        LOGGER.info("Chunk Mirroring Mod loaded — blocks, interactions, explosions, and containers will all mirror across player-affected chunks.");
     }
 }
