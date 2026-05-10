@@ -2,10 +2,12 @@ package com.chunkmirroring.mod;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -62,6 +64,42 @@ public class BlockEventHandler {
         int y = origin.getY();
 
         mirrorToPlayerChunks(level, data, originChunk, localX, y, localZ, null, true);
+    }
+
+    /**
+     * Fired when a player right-clicks a block (lever, door, button, trapdoor, etc.).
+     *
+     * The event fires BEFORE Minecraft processes the interaction, so we capture
+     * the current block state and schedule a deferred check on the next server
+     * task. If the state changed, the new state is mirrored to all other
+     * player-affected loaded chunks.
+     *
+     * Only the main hand is checked to avoid double-firing.
+     */
+    @SubscribeEvent
+    public void onBlockInteract(PlayerInteractEvent.RightClickBlock event) {
+        if (!(event.getLevel() instanceof ServerLevel level)) return;
+        if (event.getHand() != InteractionHand.MAIN_HAND) return;
+
+        BlockPos origin = event.getPos();
+        BlockState stateBefore = level.getBlockState(origin);
+
+        level.getServer().execute(() -> {
+            BlockState stateAfter = level.getBlockState(origin);
+
+            if (stateAfter.equals(stateBefore)) return;
+
+            ChunkPos originChunk = new ChunkPos(origin);
+
+            PlayerChunkData data = PlayerChunkData.get(level);
+            data.markAffected(originChunk);
+
+            int localX = origin.getX() - (originChunk.x << 4);
+            int localZ = origin.getZ() - (originChunk.z << 4);
+            int y = origin.getY();
+
+            mirrorToPlayerChunks(level, data, originChunk, localX, y, localZ, stateAfter, false);
+        });
     }
 
     /**

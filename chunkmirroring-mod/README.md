@@ -9,6 +9,7 @@ Every block you place or break is mirrored to the **exact same chunk-local coord
 
 - **Block place** — the placed block is copied to position (localX, Y, localZ) inside every other player-affected loaded chunk, replacing whatever was there.
 - **Block break** — the block at that chunk-local position is destroyed (replaced with air) in every other player-affected loaded chunk.
+- **Block interaction** — right-clicking an interactive block (lever, door, button, trapdoor, etc.) mirrors the resulting block state change to the same position in every other player-affected loaded chunk. Only fires if the block state actually changed.
 
 ### What counts as "player-affected"?
 
