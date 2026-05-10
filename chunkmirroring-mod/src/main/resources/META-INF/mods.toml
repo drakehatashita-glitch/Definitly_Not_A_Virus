@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[47,)"
+loaderVersion="[52,)"
 license="MIT"
 
 [[mods]]
@@ -13,7 +13,7 @@ Mirrors every block placement and break to the same chunk-local coordinates in e
 [[dependencies.chunkmirroring]]
     modId="forge"
     mandatory=true
-    versionRange="[47,)"
+    versionRange="[52,)"
     ordering="NONE"
     side="BOTH"
 
