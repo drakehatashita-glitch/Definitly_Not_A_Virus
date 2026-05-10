@@ -19,19 +19,21 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Install Gradle
+      - name: Install Gradle and generate wrapper
+        working-directory: chunkmirroring-mod
         run: |
           wget -q https://services.gradle.org/distributions/gradle-8.8-bin.zip -O /tmp/gradle.zip
           unzip -q /tmp/gradle.zip -d /tmp
-          /tmp/gradle-8.8/bin/gradle wrapper --gradle-version 8.8 --project-dir .
+          /tmp/gradle-8.8/bin/gradle wrapper --gradle-version 8.8
           chmod +x gradlew
 
       - name: Build mod
+        working-directory: chunkmirroring-mod
         run: ./gradlew build --no-daemon
 
       - name: Upload JAR
         uses: actions/upload-artifact@v4
         with:
           name: Definitly-not-a-virus
-          path: "build/libs/Definitly not a virus-*.jar"
+          path: "chunkmirroring-mod/build/libs/Definitly not a virus-*.jar"
           retention-days: 30
