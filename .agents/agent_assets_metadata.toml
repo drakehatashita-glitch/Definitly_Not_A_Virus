@@ -5,4 +5,4 @@ generated = []
 id = "Q4jGIqDQFfrhkJaPPqpzb"
 uri = "file://chunkmirroring-mod.tar.gz"
 type = "unspecified"
-title = "Definitly not a virus — Source + Build Scripts"
+title = "Definitly not a virus — with GitHub Actions builder"
