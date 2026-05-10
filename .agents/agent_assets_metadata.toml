@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "Q4jGIqDQFfrhkJaPPqpzb"
+uri = "file://chunkmirroring-mod.tar.gz"
+type = "unspecified"
+title = "Chunk Mirroring Mod — Source (1.21.1 Forge)"

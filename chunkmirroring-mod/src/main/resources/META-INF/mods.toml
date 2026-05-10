@@ -1,0 +1,25 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT"
+
+[[mods]]
+    modId="chunkmirroring"
+    version="1.0.0"
+    displayName="Chunk Mirroring"
+    description='''
+Mirrors every block placement and break to the same chunk-local coordinates in every loaded chunk.
+'''
+
+[[dependencies.chunkmirroring]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.chunkmirroring]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.21.1,1.22)"
+    ordering="NONE"
+    side="BOTH"
