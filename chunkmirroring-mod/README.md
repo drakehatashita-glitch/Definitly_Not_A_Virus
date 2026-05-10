@@ -5,12 +5,22 @@
 
 ## What It Does
 
-Every block you place or break is mirrored to the **exact same chunk-local coordinates** in every other loaded chunk simultaneously.
+Every block you place or break is mirrored to the **exact same chunk-local coordinates** in every other **player-affected chunk** that is currently loaded.
 
-- **Block place** — the placed block is copied to position (localX, Y, localZ) inside every other loaded chunk, replacing whatever was there.
-- **Block break** — the block at that chunk-local position is destroyed (replaced with air) in every other loaded chunk.
+- **Block place** — the placed block is copied to position (localX, Y, localZ) inside every other player-affected loaded chunk, replacing whatever was there.
+- **Block break** — the block at that chunk-local position is destroyed (replaced with air) in every other player-affected loaded chunk.
 
-"Chunk-local" means the position within the 16×16 footprint of the chunk. For example, if you place a block at world coordinate X=18, Z=5, that is local X=2, Z=5 inside chunk (1, 0). The mod will place the same block at local X=2, Z=5 (same Y) inside every other chunk that is currently loaded.
+### What counts as "player-affected"?
+
+A chunk is considered player-affected the moment any player places or breaks a block inside it. Pure world-generation chunks (untouched since the world was created) are completely ignored — the mod will never mirror into them.
+
+The list of player-affected chunks is saved to the world's data folder (`data/chunkmirroring_affected.dat`) and persists across server restarts.
+
+### Example
+
+You place a stone block at world position X=18, Z=5, Y=64.  
+That is chunk (1, 0), local X=2, Z=5.  
+The mod places stone at local X=2, Z=5, Y=64 inside every **other loaded chunk that a player has previously modified**. Untouched generated chunks are left alone.
 
 ## Building
 
@@ -53,6 +63,7 @@ or download it from https://gradle.org/install/
 ## Notes
 
 - Only works **server-side** — effects apply on the server (or in singleplayer where client = server).
-- Mirroring only affects **currently loaded chunks**. Chunks that are not loaded are unaffected.
+- Only mirrors to **player-affected** chunks. World-generated chunks are never touched.
+- Only affects **currently loaded** player-affected chunks. Unloaded chunks are skipped.
 - If a different block already exists at the mirrored position, it is **replaced** (place) or **removed** (break) without dropping items.
 - This mod is intended for creative/experimental use.
